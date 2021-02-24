@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
 using System.Text.Unicode;
+using Microsoft.Win32;
 
 namespace MSFSLayoutGenerator
 {
@@ -29,10 +30,27 @@ namespace MSFSLayoutGenerator
                     {
                         foreach (string file in Directory.GetFiles(Path.GetDirectoryName(layoutPath), "*.*", SearchOption.AllDirectories))
                         {
-                            //if (file.Length > 259)
-                            //{
-                            //    Utilities.Log("One or more file paths in the folder containing \"" + layoutPath + "\" are 260 characters or greater in length. Please move this package to a directory with a shorter path.");
-                            //}
+                            if (file.Length > 259)
+                            {
+                                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Control\FileSystem");
+                                string data = key.GetValue("LongPathsEnabled").ToString();
+                                if (data != "1")
+                                {
+                                    Utilities.Log("One or more file paths in the folder containing \"" + layoutPath + "\" are 260 characters or greater in length. Please move this package to a directory with a shorter path.");
+                                    //Console.WriteLine("One or more file paths in the folder containing \"" + layoutPath + "\" are 260 characters or greater in length. Would you like to enable Long files paths? [Y/N]");
+                                    //ConsoleKeyInfo cki = Console.ReadKey();
+                                    //if (cki.Key.ToString() == "Y")
+                                    //{
+                                    //    Console.WriteLine("lets do this" + key);
+                                    //    key.SetValue("LongPathsEnabled", "1");
+                                    //    key.Close();
+                                    //}
+                                    //else 
+                                    //{
+                                    //    Utilities.Log("ok bye bye now");
+                                    //}
+                                }
+                            }
 
                             string relativePath = Utilities.GetRelativePath(file, Path.GetDirectoryName(layoutPath));
 
