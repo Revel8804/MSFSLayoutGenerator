@@ -29,10 +29,10 @@ namespace MSFSLayoutGenerator
                     {
                         foreach (string file in Directory.GetFiles(Path.GetDirectoryName(layoutPath), "*.*", SearchOption.AllDirectories))
                         {
-                            if (file.Length > 259)
-                            {
-                                Utilities.Log("One or more file paths in the folder containing \"" + layoutPath + "\" are 260 characters or greater in length. Please move this package to a directory with a shorter path.");
-                            }
+                            //if (file.Length > 259)
+                            //{
+                            //    Utilities.Log("One or more file paths in the folder containing \"" + layoutPath + "\" are 260 characters or greater in length. Please move this package to a directory with a shorter path.");
+                            //}
 
                             string relativePath = Utilities.GetRelativePath(file, Path.GetDirectoryName(layoutPath));
 
